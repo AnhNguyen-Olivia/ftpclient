@@ -2,12 +2,13 @@ package ftpclient.com;
 import java.util.*;
 import java.io.*;
 
+/* Command-Line Interface for the FTP Client */
 public class FtpCLI {
     public void startCli(){
         FtpClient ftpClient = new FtpClient();
         try (Scanner sc = new Scanner(System.in)) {
             System.out.println("[System]> Before we start, do you want to login as anoymous? [y/n]");
-            System.out.print("> ");
+            System.out.print("[User]> ");
             String choice = sc.nextLine().trim().toLowerCase();
 
             switch(choice){
@@ -39,7 +40,7 @@ public class FtpCLI {
             }
 
             while (true) {
-                System.out.print("> ");
+                System.out.print("[User]> ");
                 String commandLine = sc.nextLine().trim();
                 if (commandLine.isEmpty()) continue;
                 String[] commandParts = commandLine.split("\\s+", 2);

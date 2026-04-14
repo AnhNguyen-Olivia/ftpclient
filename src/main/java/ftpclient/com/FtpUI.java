@@ -1,12 +1,12 @@
 package ftpclient.com;
 
+import ftpclient.com.UI_Compoments.LoginPage;
 
 public class FtpUI {
 
     public void startUI() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'startUI'");
+        javax.swing.SwingUtilities.invokeLater(() -> 
+            new LoginPage().showWindow());
     }
-    
 
 }

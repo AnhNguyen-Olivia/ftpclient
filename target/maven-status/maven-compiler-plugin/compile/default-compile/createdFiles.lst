@@ -1,5 +1,5 @@
 ftpclient\com\FtpConfig.class
-ftpclient\com\FtpUI.class
-ftpclient\com\FtpCLI.class
-ftpclient\com\FtpClient.class
 ftpclient\com\FtpApp.class
+ftpclient\com\FtpUI.class
+ftpclient\com\FtpClient.class
+ftpclient\com\FtpCLI.class

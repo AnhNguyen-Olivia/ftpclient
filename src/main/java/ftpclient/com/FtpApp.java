@@ -1,6 +1,7 @@
 package ftpclient.com;
 
 public class FtpApp {
+    /* Main entry point for the FTP application */
     public static void main(String[] args){
         try{
             String choice = args[0].trim().toLowerCase();

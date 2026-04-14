@@ -9,6 +9,14 @@ public class FtpClient {
     private BufferedWriter Network_out;
     private BufferedReader Network_in;
 
+    /**
+     * Method to connect to the FTP server. It establishes a socket connection to the specified host and port,
+     * and initializes the input and output streams for communication with the server. 
+     * It also reads and prints the server's greeting message upon successful connection.
+     * @param host
+     * @pa`ram port
+     * @throws IOException
+     */
     public void connect(String host, int port) throws IOException {
         socket = new Socket();
         socket.connect(new InetSocketAddress(host, port), FtpConfig.CONNECT_TIMEOUT_MS);
@@ -142,7 +150,6 @@ public class FtpClient {
         String response = readResponse(Network_in);
         printResponse(response);
         if(response == null || !response.startsWith("213")) return -1;
-        // FIX: was "//s+" (wrong) — must be "\\s+" to match whitespace
         long size = Long.parseLong(response.trim().split("\\s+")[1]);
         return size;
     }
