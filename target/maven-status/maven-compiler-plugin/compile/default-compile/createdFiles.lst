@@ -1,3 +1,5 @@
-ftpclient\com\Constants.class
-ftpclient\com\helper.class
-ftpclient\com\Main.class
+ftpclient\com\FtpConfig.class
+ftpclient\com\FtpUI.class
+ftpclient\com\FtpCLI.class
+ftpclient\com\FtpClient.class
+ftpclient\com\FtpApp.class
