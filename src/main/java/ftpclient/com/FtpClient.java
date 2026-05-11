@@ -187,6 +187,42 @@ public class FtpClient {
     }
 
     /**
+     * Method to list only file and directory names in the current remote directory.
+     * This is easier for GUI navigation than LIST output because it returns clean names.
+     * @return
+     * @throws IOException
+     */
+    public List<String> listRemoteNames() throws IOException {
+        List<String> fileList = new ArrayList<>();
+        try {
+            Socket dataSocket = createDataSocket();
+            sendCommand("NLST");
+            String response = readResponse(Network_in);
+            printResponse(response);
+            if (response == null || !response.startsWith("150")) {
+                throw new IOException("[System]> Failed to list remote names: " + response);
+            }
+
+            BufferedReader dataIn = new BufferedReader(new InputStreamReader(dataSocket.getInputStream()));
+            String fileName;
+            while ((fileName = dataIn.readLine()) != null) {
+                if (!fileName.isBlank()) {
+                    fileList.add(fileName);
+                }
+            }
+            dataIn.close();
+            dataSocket.close();
+
+            String completionResponse = readResponse(Network_in);
+            printResponse(completionResponse);
+        } catch (IOException e) {
+            System.out.println("[System]> Error listing remote names: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return fileList;
+    }
+
+    /**
      * Method to download a file from the FTP server. 
      * It creates a data socket, sends the RETR command, 
      * and saves the file to the local download directory.
@@ -196,7 +232,17 @@ public class FtpClient {
      * @throws Exception
      */
     public File downloadFile(String fileName) throws Exception{
-        File downloadFolder = new File(FtpConfig.DEFAULT_DOWNLOAD_DIRECTORY);
+        return downloadFile(fileName, new File(FtpConfig.DEFAULT_DOWNLOAD_DIRECTORY));
+    }
+
+    /**
+     * Method to download a file from the FTP server into a specific local folder.
+     * @param fileName
+     * @param downloadFolder
+     * @return
+     * @throws Exception
+     */
+    public File downloadFile(String fileName, File downloadFolder) throws Exception{
         if(!downloadFolder.exists()) downloadFolder.mkdir();
         File localFile = new File(downloadFolder, fileName);
 
@@ -267,6 +313,50 @@ public class FtpClient {
         }
 
         /*By taking the full size and count the bytes transferred, we can display the progress*/
+        FileInputStream fileIn = new FileInputStream(fileToUpload);
+        OutputStream dataOut = dataSocket.getOutputStream();
+        byte[] buffer = new byte[FtpConfig.BUFFER_SIZE];
+        int bytesRead;
+        long totalSize = fileToUpload.length();
+        long transferred = 0;
+        int spinnerIndex = 0;
+        System.out.println("[System]> Uploading " + fileToUpload.getName() + "...");
+        while((bytesRead = fileIn.read(buffer)) != -1){
+            dataOut.write(buffer, 0, bytesRead);
+            transferred += bytesRead;
+            printTransferProgress("Uploading", fileToUpload.getName(), transferred, totalSize, spinnerIndex++);
+        }
+        System.out.println();
+        fileIn.close();
+        dataOut.close();
+        dataSocket.close();
+        String completionResponse = readResponse(Network_in);
+        printResponse(completionResponse);
+    }
+
+    /**
+     * Method to upload a specific local file to the FTP server.
+     * @param fileToUpload
+     * @throws IOException
+     */
+    public void uploadFile(File fileToUpload) throws IOException{
+        if(fileToUpload == null || !fileToUpload.exists()){
+            throw new FileNotFoundException("[System]> File not found: " + (fileToUpload == null ? "null" : fileToUpload.getAbsolutePath()));
+        }
+
+        sendCommand("TYPE I");
+        String typeResponse = readResponse(Network_in);
+        printResponse(typeResponse);
+        Socket dataSocket = createDataSocket();
+
+        sendCommand("STOR " + fileToUpload.getName());
+        String response = readResponse(Network_in);
+        printResponse(response);
+        if(!response.startsWith("150")){
+            dataSocket.close();
+            throw new IOException("[System]> Failed to upload file: " + response);
+        }
+
         FileInputStream fileIn = new FileInputStream(fileToUpload);
         OutputStream dataOut = dataSocket.getOutputStream();
         byte[] buffer = new byte[FtpConfig.BUFFER_SIZE];

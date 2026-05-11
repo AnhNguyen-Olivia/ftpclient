@@ -1,87 +1,65 @@
-# VGU Computer Network Project - FTP Client Implementation in Java
+# VGU Computer Network Project - FTP Client (Java)
 
-Implement a FTP Client using Java that can interact with a public FTP server (e.g., ftp.gnu.org).
+This repository contains a Java implementation of an FTP client that can interact with public FTP servers (for example, ftp.gnu.org). It offers a command-line interface (CLI) for common FTP operations and has preliminary GUI components under `src/main/java/ftpclient/com/UI_Compoments`.
 
-## Libraries Used
-
-- [X] java.io.*
-- [X] java.net.*
-- [X] java.util.*
-- [ ] javax.swing.*
-- [ ] java.fx.* (for GUI)
-
-## Required Features
-
-- [x] Connect to FTP server (default port 21)
-- [x] Anonymous login and custom username/password login
-- [x] pwd (PWD command)
-- [x] cd (CWD command)
-- [x] ls using PASV + LIST
-- [x] get using PASV + RETR (binary mode)
-- [x] put using PASV + STOR (binary mode)
-- [x] delete (DELE command)
-- [x] mkdir (MKD command)
-- [x] rmdir (RMD command)
-- [x] quit (QUIT command)
-
-### Optional Features
-
-- [x] help command to list available commands and their usage
-- [ ] GUI interface for file browsing and operations
-- [ ] size (SIZE command)
-- [ ] Progress bar for file uploads/downloads
-
-## Technical Requirements
-
-- [x] Must correctly handle control connection and separate data connection. [Partially implemented]
-- [x] Must correctly parse FTP reply codes, including multiline responses.  
-- [x] Must properly close sockets and streams. [?]
-- [x] Must handle errors gracefully.[Partially implemented]
-
-## Requirements
+## Prerequisites
 
 - Java 21 or later
+- Apache Maven (3.6+)
+- Internet access to connect to public FTP servers (optional for local testing)
 
-## Project Structure
+## Quick Overview
 
-```terminal
-ftclient
-├───.vscode
-├───Download
-├───src
-│   ├───main
-│   │   ├───java
-│   │   │   └───ftpclient
-│   │   │       └───com
-│   │   └───resources
-│   └───test
-│       └───java
-├───target
-│   ├───classes
-│   │   └───ftpclient
-│   │       └───com
-│   ├───generated-sources
-│   │   └───annotations
-│   ├───maven-status
-│   │   └───maven-compiler-plugin
-│   │       └───compile
-│   │           └───default-compile
-│   └───test-classes
-└───Upload
-```
+- Main entry: `ftpclient.com.FtpApp` (configured in the Maven `exec` plugin)
+- CLI supports: `connect`, `login`, `pwd`, `cd`, `ls`, `get`, `put`, `delete`, `mkdir`, `rmdir`, `quit`, and `help`
 
-## Build and run guide
+## Build
 
-```terminal
+From the project root, run:
+
+```bash
 mvn clean install
-mvn clean compile
-mvn exec:java "-Dexec.mainClass=ftpclient.com.Main" 
 ```
 
-## How to run GUI
+This compiles sources into `target/classes` and packages the project into `target/ftpclient-1.0-SNAPSHOT.jar`.
 
-I will implement the Gui later.
+### Run (using compiled classes)
+
+Run the main class from the compiled classes directory. Pass the mode as the first argument (cli or gui) to avoid the initial prompt:
+
+```bash
+java -cp target/classes ftpclient.com.FtpApp cli
+```
+
+### Run (packaged JAR)
+
+If you prefer to run the packaged JAR and the project has no external dependencies, you can run:
+
+```bash
+mvn package
+java -cp target/ftpclient-1.0-SNAPSHOT.jar ftpclient.com.FtpApp cli
+```
+
+Note: If you need a self-contained executable JAR with dependency bundling, let me know and I can add the Maven Shade plugin.
+
+## Basic usage examples
+
+1. Start the application (see commands above).
+2. At the prompt, connect and operate:
+
+```text
+> connect ftp.gnu.org
+> login anonymous
+> ls
+> get README
+> put localfile.bin
+> quit
+```
+
+## GUI
+
+There are GUI-related classes in `src/main/java/ftpclient/com/UI_Compoments` and `FtpUI.java`, but the GUI is not fully implemented. Use the CLI for now.
 
 ## License
 
-This project is licensed under the MIT License, see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file.

@@ -1,10 +1,8 @@
 package ftpclient.com.UI_Compoments;
 
-import ftpclient.com.FtpClient;
-import ftpclient.com.FtpConfig;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
+import ftpclient.com.*;
+import java.awt.event.*;
+import java.io.*;
 import javax.swing.*;
 
 public class LoginPage implements ActionListener {
@@ -17,19 +15,13 @@ public class LoginPage implements ActionListener {
     private JButton connectButton;
     private JCheckBox anonymousCheckBox;
     private JFrame frame;
-    private final Runnable onLoginSuccess;
+    private FtpClient ftpClient;
 
     public static void main(String[] args) {
-        FtpClient ftpClient = new FtpClient();
-        new LoginPage(() -> new MainWindow().showMainWindow()).showWindow();
+        new LoginPage().showWindow();
     }
 
     public LoginPage() {
-        this(null);
-    }
-
-    public LoginPage(Runnable onLoginSuccess) {
-        this.onLoginSuccess = onLoginSuccess;
     }
 
     public void showWindow() {
@@ -125,7 +117,7 @@ public class LoginPage implements ActionListener {
                 String server = serverText.getText().trim();
                 String user = userText.getText().trim();
                 String password = passwordText.getText().trim();
-                FtpClient ftpClient = new FtpClient();
+                ftpClient = new FtpClient();
                 ftpClient.connect(server, FtpConfig.FTP_PORT);
 
                 if (!ftpClient.login(user, password)) {
@@ -135,12 +127,7 @@ public class LoginPage implements ActionListener {
                 SwingUtilities.invokeLater(() -> {
                     connectingToServer.setText("Connected to " + server);
                     frame.dispose();
-                    if (onLoginSuccess != null) {
-                        onLoginSuccess.run();
-                    } else {
-                        MainWindow mainWindow = new MainWindow();
-                        mainWindow.showMainWindow();
-                    }
+                    new MainWindow(ftpClient).showMainWindow();
                 });
             } catch (IOException ex) {
                 SwingUtilities.invokeLater(() -> connectingToServer.setText("Login failed: " + ex.getMessage()));
