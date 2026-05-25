@@ -58,7 +58,15 @@ Note: If you need a self-contained executable JAR with dependency bundling, let 
 
 ## GUI
 
-There are GUI-related classes in `src/main/java/ftpclient/com/UI_Compoments` and `FtpUI.java`, but the GUI is not fully implemented. Use the CLI for now.
+There are GUI-related classes in `src/main/java/ftpclient/com/UI_Compoments` and `FtpUI.java`. It is fully functional use this command to start the GUI directly:
+
+```bash
+java -cp target/classes ftpclient.com.FtpApp gui
+```
+
+## Note
+
+If you need a test server for testing this program, I recomend using this website to create a free FTP for one hour [free ftp server](https://sftpcloud.io/tools/free-ftp-server)
 
 ## License
 
