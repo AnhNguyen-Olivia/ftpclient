@@ -5,6 +5,11 @@ import java.awt.event.*;
 import java.io.*;
 import javax.swing.*;
 
+/* LoginPage class that provides a graphical user interface for users to input FTP server credentials and connect to the server. 
+ * It includes fields for server address, username, and password, as well as a checkbox for anonymous login and a button to initiate the connection. 
+ * The class handles user interactions and manages the connection process in a separate thread to keep the UI responsive.
+ */
+
 public class LoginPage implements ActionListener {
 
     private JTextField serverText;

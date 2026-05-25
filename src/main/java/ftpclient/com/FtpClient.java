@@ -3,6 +3,9 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+/**
+ * FtpClient class that implements the core FTP protocol functionality.
+ */
 public class FtpClient {
 
     private Socket socket;
@@ -14,7 +17,7 @@ public class FtpClient {
      * and initializes the input and output streams for communication with the server. 
      * It also reads and prints the server's greeting message upon successful connection.
      * @param host
-     * @pa`ram port
+     * @param port
      * @throws IOException
      */
     public void connect(String host, int port) throws IOException {
@@ -217,6 +220,41 @@ public class FtpClient {
             printResponse(completionResponse);
         } catch (IOException e) {
             System.out.println("[System]> Error listing remote names: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return fileList;
+    }
+
+    public List<String> listRemoteWithTypes() throws IOException {
+        List<String> fileList = new ArrayList<>();
+        try {
+            Socket dataSocket = createDataSocket();
+            sendCommand("LIST");
+            String response = readResponse(Network_in);
+            printResponse(response);
+            if (!response.startsWith("150")) {
+                throw new IOException("[System]> Failed to list directory: " + response);
+            }
+
+            BufferedReader dataIn = new BufferedReader(new InputStreamReader(dataSocket.getInputStream()));
+            String line;
+            while ((line = dataIn.readLine()) != null) {
+                if (!line.isBlank()) {
+                    String[] parts = line.trim().split("\\s+");
+                    if (parts.length > 0) {
+                        String name = parts[parts.length - 1];
+                        boolean isDir = line.startsWith("d");
+                        fileList.add(isDir ? name + "/" : name);
+                    }
+                }
+            }
+            dataIn.close();
+            dataSocket.close();
+
+            String completionResponse = readResponse(Network_in);
+            printResponse(completionResponse);
+        } catch (IOException e) {
+            System.out.println("[System]> Error listing directory with types: " + e.getMessage());
             e.printStackTrace();
         }
         return fileList;

@@ -3,6 +3,8 @@ E:\VGU_Summer_26-26\CompNet-2\CompNet-Project\ftpclient\src\main\java\ftpclient\
 E:\VGU_Summer_26-26\CompNet-2\CompNet-Project\ftpclient\src\main\java\ftpclient\com\FtpClient.java
 E:\VGU_Summer_26-26\CompNet-2\CompNet-Project\ftpclient\src\main\java\ftpclient\com\FtpConfig.java
 E:\VGU_Summer_26-26\CompNet-2\CompNet-Project\ftpclient\src\main\java\ftpclient\com\FtpUI.java
-E:\VGU_Summer_26-26\CompNet-2\CompNet-Project\ftpclient\src\main\java\ftpclient\com\UI_Compoments\ButtonAction.java
+E:\VGU_Summer_26-26\CompNet-2\CompNet-Project\ftpclient\src\main\java\ftpclient\com\UI_Compoments\LocalPanel.java
 E:\VGU_Summer_26-26\CompNet-2\CompNet-Project\ftpclient\src\main\java\ftpclient\com\UI_Compoments\LoginPage.java
 E:\VGU_Summer_26-26\CompNet-2\CompNet-Project\ftpclient\src\main\java\ftpclient\com\UI_Compoments\MainWindow.java
+E:\VGU_Summer_26-26\CompNet-2\CompNet-Project\ftpclient\src\main\java\ftpclient\com\UI_Compoments\RemotePanel.java
+E:\VGU_Summer_26-26\CompNet-2\CompNet-Project\ftpclient\src\main\java\ftpclient\com\UI_Compoments\TopbarPanel.java
