@@ -40,8 +40,6 @@ mvn package
 java -cp target/ftpclient-1.0-SNAPSHOT.jar ftpclient.com.FtpApp cli
 ```
 
-Note: If you need a self-contained executable JAR with dependency bundling, let me know and I can add the Maven Shade plugin.
-
 ## Basic usage examples
 
 1. Start the application (see commands above).
@@ -67,6 +65,13 @@ java -cp target/classes ftpclient.com.FtpApp gui
 ## Note
 
 If you need a test server for testing this program, I recomend using this website to create a free FTP for one hour [free ftp server](https://sftpcloud.io/tools/free-ftp-server)
+
+In the cli option you can use the following command to connect to the server:
+
+```bash
+[System]> Before we start, do you want to login as anoymous? [y/n/o] (o for other credentials)
+you can choose y to login as anoymous, n to skip login and o to input your own credentials and own server. (Hint: Use the free ftp I provide above for testing)
+```
 
 ## License
 

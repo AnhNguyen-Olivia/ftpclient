@@ -7,7 +7,7 @@ public class FtpCLI {
     public void startCli(){
         FtpClient ftpClient = new FtpClient();
         try (Scanner sc = new Scanner(System.in)) {
-            System.out.println("[System]> Before we start, do you want to login as anoymous? [y/n]");
+            System.out.println("[System]> Before we start, do you want to login as anoymous? [y/n/o] (o for other credentials)");
             System.out.print("[User]> ");
             String choice = sc.nextLine().trim().toLowerCase();
 
@@ -33,6 +33,39 @@ public class FtpCLI {
                         return;
                     }
                     System.out.println("[System]> Custom login successful.");
+                    break;
+                case "o":
+                    System.out.println("[System]> Other credentials selected — please provide server and credentials.");
+                    System.out.print("[System]> Host (default: " + FtpConfig.CUSTOM_HOST + "): ");
+                    String host = sc.nextLine().trim();
+                    if (host.isBlank()) host = FtpConfig.CUSTOM_HOST;
+
+                    System.out.print("[System]> Port (default: " + FtpConfig.FTP_PORT + "): ");
+                    String portStr = sc.nextLine().trim();
+                    int port = FtpConfig.FTP_PORT;
+                    if (!portStr.isBlank()) {
+                        try {
+                            port = Integer.parseInt(portStr);
+                        } catch (NumberFormatException nfe) {
+                            System.out.println("[System]> Invalid port, using default " + FtpConfig.FTP_PORT);
+                            port = FtpConfig.FTP_PORT;
+                        }
+                    }
+
+                    System.out.print("[System]> Enter username: ");
+                    String username = sc.nextLine().trim();
+                    System.out.print("[System]> Enter password: ");
+                    String password = sc.nextLine().trim();
+
+                    System.out.println("[System]> Connecting to " + host + ":" + port + "...");
+                    ftpClient.connect(host, port);
+
+                    System.out.println("[System]> Logging in with provided credentials...");
+                    if (!ftpClient.login(username, password)) {
+                        System.out.println("[System]> Login failed with provided credentials.");
+                        return;
+                    }
+                    System.out.println("[System]> Login successful with provided credentials.");
                     break;
                 default:
                     System.out.println("[System]> Invalid choice. Please enter y or n.");
