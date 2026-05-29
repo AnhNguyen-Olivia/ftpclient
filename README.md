@@ -72,6 +72,9 @@ In the cli option you can use the following command to connect to the server:
 [System]> Before we start, do you want to login as anoymous? [y/n/o] (o for other credentials)
 you can choose y to login as anoymous, n to skip login and o to input your own credentials and own server. (Hint: Use the free ftp I provide above for testing)
 ```
+## Integrity Declaration
+
+I confirm that this submission is my own work. I did not copy code from AI tools, classmates, or online repositories.
 
 ## License
 
