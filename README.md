@@ -73,6 +73,8 @@ In the cli option you can use the following command to connect to the server:
 you can choose y to login as anoymous, n to skip login and o to input your own credentials and own server. (Hint: Use the free ftp I provide above for testing)
 ```
 
-## License
+## License and Integrity Declaration
 
 This project is licensed under the MIT License — see the [LICENSE](LICENSE) file.
+
+I confirm that this submission is my own work. I did not copy code from AI tools, classmates, or online repositories.

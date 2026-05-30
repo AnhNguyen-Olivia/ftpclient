@@ -15,16 +15,24 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
+/**
+ * A panel that displays the remote FTP directory contents and allows navigation.
+ */
 public class RemotePanel extends JPanel {
     private final FtpClient ftpClient;
     private final DefaultListModel<String> model = new DefaultListModel<>();
     private final JList<String> list;
     private final JLabel pathLabel;
 
-
+    /**
+     * Callback for when the selection changes, e.g., to update the local panel
+     */
     private Consumer<String> onSelectionChanged = ignored -> {};
- 
+    
+    /**
+     * Constructs the RemotePanel with the given FtpClient.
+     * @param ftpClient
+     */
     public RemotePanel(FtpClient ftpClient) {
         super(new BorderLayout(5, 5));
         this.ftpClient = ftpClient;
@@ -48,6 +56,9 @@ public class RemotePanel extends JPanel {
         add(new JScrollPane(list), BorderLayout.CENTER);
     }
 
+    /**
+     * Refreshes the remote directory listing and updates the path label.
+     */
     public void refresh() {
         try {
             model.clear();
@@ -66,14 +77,27 @@ public class RemotePanel extends JPanel {
         }
     }
 
+    /**
+     * Returns the currently selected value from the list.
+     * @return the selected value or null if none is selected
+     */
     public String getSelectedValue() {
         return list.getSelectedValue();
     }
 
+    /**
+     * Sets a callback to be invoked when the selection changes.
+     * @param callback a Consumer that accepts the selected value
+     */
     public void setOnSelectionChanged(Consumer<String> callback) {
         this.onSelectionChanged = callback;
     }
 
+    /**
+     * Parses the working directory from the FTP PWD response.
+     * @param pwdResponse the raw response from the PWD command
+     * @return the extracted working directory or "unknown" if parsing fails
+     */
     public String parseWorkingDirectory(String pwdResponse) {
         if (pwdResponse == null || pwdResponse.isBlank()) return "unknown";
  
@@ -84,14 +108,18 @@ public class RemotePanel extends JPanel {
                 ? pwdResponse.substring(first + 1, second)
                 : pwdResponse.trim();
     }
-
+    
+    /**
+     * Handles opening the selected entry in the list. 
+     * If it's a directory, it navigates into it; if it's "..", it goes up one level. Plain files are not opened!
+     */
         private void openSelectedEntry() {
         String selected = list.getSelectedValue();
         if (selected == null || selected.startsWith("[System]>")) return;
  
         String target = "..".equals(selected) ? ".." : selected.replaceAll("/$", "");
  
-        // Only navigate into directories; plain files are not opened here
+        // Only navigate into directories; plain files are not opened here!
         if (!selected.endsWith("/") && !"..".equals(selected)) return;
  
         try {

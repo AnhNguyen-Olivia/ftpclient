@@ -6,7 +6,9 @@ import ftpclient.com.UI_Compoments.LoginPage;
  */
 
 public class FtpUI {
-
+    /* Method to start the user interface by displaying the login page. 
+     * This method is called from the main method of the application to launch the GUI.
+     */
     public void startUI() {
         javax.swing.SwingUtilities.invokeLater(() -> 
             new LoginPage().showWindow());

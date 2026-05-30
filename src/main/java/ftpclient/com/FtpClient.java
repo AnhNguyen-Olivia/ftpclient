@@ -428,6 +428,10 @@ public class FtpClient {
         Network_out.flush();
     }
 
+    /**
+     * Private method to print the server's response to the console.
+     * @param response
+     */
     private void printResponse(String response) {
         if (response == null || response.isBlank()) {
             return;

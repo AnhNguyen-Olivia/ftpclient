@@ -26,9 +26,15 @@ public class LoginPage implements ActionListener {
         new LoginPage().showWindow();
     }
 
+    /**
+     * Constructor for LoginPage.
+     */
     public LoginPage() {
     }
 
+    /**
+     * Displays the login window.
+     */
     public void showWindow() {
         JPanel panel = new JPanel();
         frame = new JFrame();
@@ -92,6 +98,10 @@ public class LoginPage implements ActionListener {
         frame.setVisible(true);
     }
 
+    /**
+     * Handles action events for the login page, including toggling anonymous login and initiating the connection to the FTP server.
+     * @param event
+     */
     @Override
     public void actionPerformed(ActionEvent event) {
         if (event.getSource() == anonymousCheckBox) {
@@ -113,6 +123,9 @@ public class LoginPage implements ActionListener {
         }
     }
 
+    /**
+     * Attempts to connect to the FTP server with the provided credentials.
+     */
     private void connectToServer() {
         connectButton.setEnabled(false);
         connectingToServer.setText("Connecting to server...");

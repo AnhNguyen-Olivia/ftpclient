@@ -4,6 +4,9 @@ import java.awt.*;
 import javax.swing.*;
 import java.io.*;
 
+/* MainWindow class that serves as the primary interface for the FTP client application. 
+ * It manages the layout and interactions between the local and remote panels, as well as the top bar for user actions.
+ */
 public class MainWindow{
     private JFrame frame;
     private final FtpClient ftpClient;
@@ -16,6 +19,9 @@ public class MainWindow{
         this.ftpClient = ftpClient;
     }
 
+    /**
+     * Displays the main window of the FTP client application.
+     */
     public void showMainWindow(){
         localPanel = new LocalPanel();
         remotePanel = new RemotePanel(ftpClient);
@@ -47,6 +53,9 @@ public class MainWindow{
         frame.setVisible(true);
     }
 
+    /**
+     * Private method to handle uploading a selected local file to the remote server.
+     */
     private void uploadSelectedFile() {
         String selected = localPanel.getSelectedValue();
         if (selected == null || selected.endsWith("/")) {
@@ -68,7 +77,10 @@ public class MainWindow{
             showError("Upload failed: " + ex.getMessage());
         }
     }
- 
+    
+    /**
+     * Private method to handle downloading a selected remote file to the local machine.
+     */
     private void downloadSelectedFile() {
         String selected = remotePanel.getSelectedValue();
         if (selected == null || selected.isBlank()) {
@@ -85,6 +97,9 @@ public class MainWindow{
         }
     }
  
+    /**
+     * Private method to handle deleting a selected remote file.
+     */
     private void deleteSelectedRemoteFile() {
         String selected = remotePanel.getSelectedValue();
         if (selected == null || selected.isBlank()) {
@@ -99,7 +114,10 @@ public class MainWindow{
             showError("Delete failed: " + ex.getMessage());
         }
     }
- 
+    
+    /**
+     * Private method to handle creating a new directory on the remote server.
+     */
     private void createRemoteDirectory() {
         String name = JOptionPane.showInputDialog(frame, "New remote directory name:");
         if (name == null || name.isBlank()) return;
@@ -111,7 +129,10 @@ public class MainWindow{
             showError("MKDIR failed: " + ex.getMessage());
         }
     }
- 
+    
+    /**
+     * Private method to handle removing a selected directory from the remote server.
+     */
     private void removeRemoteDirectory() {
         String selected = remotePanel.getSelectedValue();
         if (selected == null || selected.isBlank() || selected.startsWith("[System]>")) {
@@ -122,7 +143,7 @@ public class MainWindow{
             showError("Selected entry is not a directory.");
             return;
         }
- 
+
         String dirName = selected.replaceAll("/$", "");
         int choice = JOptionPane.showConfirmDialog(
                 frame, "Remove directory: " + dirName + "?",
@@ -137,7 +158,10 @@ public class MainWindow{
             showError("RMDIR failed: " + ex.getMessage());
         }
     }
- 
+    
+    /**
+     * Private method to display the current working directory on the remote server.
+     */
     private void showRemoteWorkingDirectory() {
         try {
             showInfo(remotePanel.parseWorkingDirectory(ftpClient.pwd()));
@@ -146,11 +170,17 @@ public class MainWindow{
         }
     }
 
+    /**
+     * Private method to refresh both the local and remote panels.
+     */
     private void refreshAll() {
         localPanel.refresh();
         remotePanel.refresh();
     }
 
+    /**
+     * Private method to quit the application and close the FTP connection.
+     */
     private void quitApplication() {
         try {
             ftpClient.quit();
@@ -162,15 +192,25 @@ public class MainWindow{
             }
         }
     }
- 
+    
+    /**
+     * Utility method to show an informational message to the user.
+     */
     private void showInfo(String message) {
         JOptionPane.showMessageDialog(frame, message);
     }
- 
+    
+    /**
+     * Utility method to show an error message to the user.
+     */
     private void showError(String message) {
         JOptionPane.showMessageDialog(frame, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
+    /**
+     * Private method to build the header panel of the main window, including the title and top bar.
+     * @return a JPanel containing the header components.
+     */
     private JPanel buildHeader() {
         JPanel titleRow = new JPanel(new BorderLayout());
         titleRow.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
@@ -189,7 +229,11 @@ public class MainWindow{
         header.add(topBarRow, BorderLayout.CENTER);
         return header;
     }
- 
+    
+    /**
+     * Private method to build the split pane that contains the local and remote panels.
+     * @return a JSplitPane containing the local and remote panels.
+     */
     private JSplitPane buildSplitPane() {
         JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         split.setLeftComponent(localPanel);
@@ -199,5 +243,3 @@ public class MainWindow{
         return split;
     }
 }
-
- 

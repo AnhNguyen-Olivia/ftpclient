@@ -7,8 +7,24 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * TopbarPanel is a JPanel that contains buttons for FTP operations and a label to display the type of the selected file.
+ * It provides methods to update the file type label based on the selected file.
+ */
 public class TopbarPanel extends JPanel {
     public final JLabel fileTypeLabel;
+
+    /**
+     * Constructor for TopbarPanel.
+     * @param onUpload
+     * @param onDownload
+     * @param onDelete
+     * @param onMkDir
+     * @param onRmDir
+     * @param onPwd
+     * @param onRefresh
+     * @param onQuit
+     */
 
     public TopbarPanel(
         Runnable onUpload,
@@ -36,7 +52,10 @@ public class TopbarPanel extends JPanel {
         add(fileTypeLabel);
     }
 
-
+        /**
+         * Updates the file type label based on the selected file.
+         * @param selected
+         */
         public void updateFileTypeLabel(String selected) {
             if (selected == null || selected.isBlank() || selected.startsWith("[System]>") || "..".equals(selected)) {
             fileTypeLabel.setText("Select a file to see type");
@@ -46,13 +65,16 @@ public class TopbarPanel extends JPanel {
             fileTypeLabel.setText("Type: File — " + selected);
         }
     }
-
+        /**
+         * Helper method to create a JButton with a label and an action.
+         * @param label
+         * @param action
+         * @return
+         */
         private static JButton button(String label, Runnable action) {
         JButton btn = new JButton(label);
         btn.setFocusPainted(false);
         btn.addActionListener(e -> action.run());
         return btn;
     }
-
 }
-    
