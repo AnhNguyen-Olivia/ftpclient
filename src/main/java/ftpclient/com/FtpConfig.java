@@ -28,13 +28,13 @@ public class FtpConfig {
     public static final int READ_TIMEOUT_MS = 15000;
 
     private static String getDefaultDownloadDir() {
-        String homeDir = System.getProperty("user.home");
-        return new java.io.File(homeDir, "FtpClient/Download").getAbsolutePath();
+        String workDir = System.getProperty("user.dir");
+        return new java.io.File(workDir, "Download").getAbsolutePath();
     }
 
     private static String getDefaultUploadDir() {
-        String homeDir = System.getProperty("user.home");
-        return new java.io.File(homeDir, "FtpClient/Upload").getAbsolutePath();
+        String workDir = System.getProperty("user.dir");
+        return new java.io.File(workDir, "Upload").getAbsolutePath();
     }
 
     private FtpConfig(){/*Private constructor to prevent installation :)))*/}

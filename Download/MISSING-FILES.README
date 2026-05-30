@@ -1,0 +1,107 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+To the Free Software Community:
+
+
+                                 Summary
+
+   * gnuftp, the FTP server for the GNU project was root compromised.  A
+     replacement machine was rolled out in its place on the morning
+     (Eastern time) of 2003-08-02.
+
+   * After substantial investigation, we don't believe that any GNU
+     source has been compromised.
+
+   * To be extra-careful, we are verifying known, trusted secure
+     checksums of all files before putting them back on the FTP site.
+     That process began on 2003-08-02 and is ongoing.
+
+
+                 Events Concerning Cracking of Gnuftp
+
+A root compromise and a Trojan horse were discovered on gnuftp.gnu.org,
+the FTP server of the GNU project.  The machine appears to have been
+cracked in March 2003, but we only discovered the crack in the last week
+of July 2003.  The modus operandi of the cracker shows that (s)he was
+interested primarily in using gnuftp to collect passwords and as a
+launching point to attack other machines.  It appears that the machine was
+cracked using a ptrace exploit by a local user immediately after the
+exploit was posted.
+
+(For the ptrace bug, a root-shell exploit was available on 17 March 2003,
+ and a working fix was not available on linux-kernel until the following
+ week.  Evidence found on the machine indicates that gnuftp was cracked
+ during that week.)
+
+
+Given the nature of the compromise and the length of time the machine was
+compromised, we have spent the last few weeks verifying the integrity of
+the GNU source code stored on gnuftp.  Most of this work is done, and the
+remaining work is primarily for files that were uploaded since early 2003,
+as our backups from that period could also theoretically be compromised.
+
+
+                       Historical Integrity Checks
+
+We have compared the md5sum of each source code file (such as .tar.gz,
+.tar.bz2, diff's, etc.) on ftp.gnu.org with a known good checksum.  The
+file, ftp://ftp.gnu.org/before-2003-08-01.md5sums.asc, contains a list of
+files in the format:
+
+MD5SUM FILE [REASON, ... REASON]
+
+The REASONs are a list of reasons why we believe that md5sum is good for
+that file.  The file as a whole is GPG-signed.
+
+
+
+                             Remaining Files
+
+The files that have not been checked are listed in the root directory as
+"MISSING-FILES".  We are in the process of asking GNU maintainers for
+trusted secure checksums of those files before we put them in place.
+
+We have lots of evidence now to believe that no source has been
+compromised.  The evidence includes the MO of the cracker, the fact that
+every file we've checked so far isn't compromised, and that searches for
+standard source trojans turned up nothing.
+
+However, we don't want to put files up until we've had a known good source
+confirm that the checksums are correct.
+
+
+                              Alpha FTP Site
+
+The Alpha FTP site at ftp://alpha.gnu.org/ has been a lower priority for
+us, but we are following a similar procedure there.  Since alpha.gnu.org
+is primarily a site for quick release of constantly changing software, we
+won't go to great pains to restore every file, but we will restore those
+files where the integrity of the file is easy to confirm.
+
+
+                              Moving Forward
+
+All releases after the 2003-08-01 date will have checksums GPG-signed by
+the GNU maintainer who prepared the release.  This assures automatic
+certification of the integrity of all GNU source from that date onward.
+
+Local shell access to the FTP server for GNU maintainers has been
+withdrawn pending completion of our certification activities.  Further
+arrangements for GNU maintainer access to the FTP archives will be
+announced upon completion of the certification activity.
+
+
+- -- 
+Bradley M. Kuhn, Executive Director
+Free Software Foundation     |  Phone: +1-617-542-5942
+59 Temple Place, Suite 330   |  Fax:   +1-617-542-2652
+Boston, MA 02111-1307  USA   |  Web:   http://www.gnu.org
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.2.1 (GNU/Linux)
+
+iD8DBQE/OsRS53XjJNtBs4cRAvAPAKDGVsG5Zo+ZNwZs+b0RpxSzg+VbnACffyHG
+m4P/jDVuv74X9hTXHpxwpOM=
+=jDUM
+-----END PGP SIGNATURE-----

@@ -16,9 +16,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
  
 /**
- * LocalPanel is a GUI component that displays the local file system in a list format. 
- * It allows users to navigate through directories and select files for uploading to the FTP server. 
- * The panel maintains a base directory (user's home/FtpClient) to restrict navigation,
+ * LocalPanel is a GUI component that displays the local file system in a list format.
+ * It allows users to navigate through directories and select files for uploading to the FTP server.
+ * The panel maintains a base directory (project directory) to restrict navigation,
  * ensure that users do not access unintended parts of the file system.
  * Aka me being lazy and not implementing a full file explorer, sorry Dr. Huy :')
  */
@@ -32,14 +32,14 @@ public class LocalPanel extends JPanel {
     private final File baseDirectory;
     
     /**
-     * Constructor for LocalPanel. 
-     * It initializes the base directory to "FtpClient" within the user's home directory 
+     * Constructor for LocalPanel.
+     * It initializes the base directory to the current working directory
      * and sets up the GUI components including the path label and file list.
      */
     public LocalPanel() {
         super(new BorderLayout(5, 5));
- 
-        this.baseDirectory = new File(System.getProperty("user.home"), "FtpClient");
+
+        this.baseDirectory = new File(System.getProperty("user.dir"));
         ensureDirectoryStructure();
         this.currentDirectory = baseDirectory;
  
